@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Attendance;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,12 +14,33 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
-    {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
-    }
+   public function edit(Request $request): View
+{
+    $user = $request->user();
+
+    $attendances = Attendance::where('user_id', $user->id)
+        ->latest()
+        ->take(5)
+        ->get();
+
+    $totalPresensi = Attendance::where('user_id', $user->id)->count();
+
+    $totalHadir = Attendance::where('user_id', $user->id)
+        ->where('status', 'Hadir')
+        ->count();
+
+    $persentase = $totalPresensi > 0
+        ? round(($totalHadir / $totalPresensi) * 100)
+        : 0;
+
+    return view('profile.edit', compact(
+        'user',
+        'attendances',
+        'totalPresensi',
+        'totalHadir',
+        'persentase'
+    ));
+}
 
     /**
      * Update the user's profile information.

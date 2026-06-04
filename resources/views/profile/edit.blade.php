@@ -1,116 +1,268 @@
 @extends('layouts.web-app')
 
 @section('content')
-<div class="max-w-4xl mx-auto space-y-8">
 
-    <!-- Header -->
-    <div class="flex items-center gap-4">
-        <a href="{{ route('dashboard') }}" class="w-10 h-10 bg-white rounded-xl flex items-center justify-center border-2 border-gray-300 hover:bg-gray-50 transition-colors shadow-sm">
-            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-        </a>
+@php
+    $instansi = 'STMIK Widya Utama Purwokerto';
+    $prodi = 'S1 Teknik Informatika';
+    $angkatan = '2023';
+    $kelas = 'Reguler Pagi A 6.1';
+
+    $semester = '6';
+    $ipk = '3.86';
+    $sks = '132';
+@endphp
+
+<div class="max-w-6xl mx-auto px-4 space-y-8">
+
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
         <div>
-            <h2 class="text-3xl font-black text-[#14532D] flex items-center gap-2">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                Profil Saya
+            <h1 class="text-4xl font-black text-[#14532D]">
+                Profil Mahasiswa
+            </h1>
+
+            <p class="text-gray-500">
+                Informasi akun dan data akademik mahasiswa
+            </p>
+        </div>
+
+    </div>
+
+    <!-- KARTU MAHASISWA -->
+    <div class="bg-gradient-to-r from-[#14532D] to-[#1f7a3f] rounded-[35px] p-8 shadow-xl text-white">
+
+        <div class="flex flex-col md:flex-row items-center gap-8">
+
+            <!-- FOTO -->
+            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg">
+
+                <img
+                    src="{{ Auth::user()->photo ?? 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop' }}"
+                    alt="Profile"
+                    class="w-full h-full object-cover">
+
+            </div>
+
+            <!-- INFO -->
+            <div class="flex-1 text-center md:text-left">
+
+                <h2 class="text-2xl md:text-4xl font-black break-words">
+                    {{ Auth::user()->name }}
+                </h2>
+
+                <p class="text-yellow-300 text-lg md:text-xl font-bold">
+                    {{ Auth::user()->nim }}
+                </p>
+
+                <p class="mt-2 text-white/90">
+                    {{ Auth::user()->email }}
+                </p>
+
+            </div>
+
+            <!-- ROLE -->
+            <div class="bg-white text-[#14532D] px-6 py-3 rounded-2xl font-black uppercase">
+
+                {{ Auth::user()->role }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- STATISTIK AKADEMIK -->
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+
+        <div class="bg-white rounded-3xl p-6 shadow-lg text-center">
+
+            <p class="text-gray-500">
+                Semester
+            </p>
+
+            <h2 class="text-5xl font-black text-[#14532D]">
+                {{ $semester }}
             </h2>
-            <p class="text-gray-500 font-bold mt-2">Kelola informasi akun dan keamanan Anda.</p>
+
         </div>
+
+        <div class="bg-white rounded-3xl p-6 shadow-lg text-center">
+
+            <p class="text-gray-500">
+                IPK
+            </p>
+
+            <h2 class="text-5xl font-black text-[#14532D]">
+                {{ $ipk }}
+            </h2>
+
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 shadow-lg text-center col-span-2 md:col-span-1">
+
+            <p class="text-gray-500">
+                SKS
+            </p>
+
+            <h2 class="text-5xl font-black text-[#14532D]">
+                {{ $sks }}
+            </h2>
+
+        </div>
+
     </div>
 
-    <!-- Profile Avatar Card -->
-    <div class="bg-[#7E9D68] rounded-[30px] p-8 border-4 border-[#14532D] shadow-[-8px_8px_0_0_#14532D] flex flex-col md:flex-row items-center gap-8">
-        <div class="w-32 h-32 rounded-full border-4 border-white overflow-hidden shadow-lg bg-gray-300 shrink-0">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop" alt="Profile" class="w-full h-full object-cover">
+    <!-- STATISTIK PRESENSI -->
+    @isset($totalPresensi)
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="bg-white rounded-3xl p-6 shadow-lg text-center">
+
+            <p class="text-gray-500 font-bold">
+                Total Presensi
+            </p>
+
+            <h2 class="text-5xl font-black text-[#14532D] mt-3">
+                {{ $totalPresensi }}
+            </h2>
+
         </div>
-        <div class="text-center md:text-left">
-            <h3 class="text-white text-2xl font-black">{{ Auth::user()->name }}</h3>
-            <p class="text-white/80 font-bold mt-1">{{ Auth::user()->email }}</p>
-            <div class="mt-3 bg-white/20 text-white px-4 py-1.5 rounded-full font-bold text-sm inline-block">
-                Mahasiswa Aktif
+
+        <div class="bg-white rounded-3xl p-6 shadow-lg text-center">
+
+            <p class="text-gray-500 font-bold">
+                Hadir
+            </p>
+
+            <h2 class="text-5xl font-black text-green-600 mt-3">
+                {{ $totalHadir }}
+            </h2>
+
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 shadow-lg text-center">
+
+            <p class="text-gray-500 font-bold">
+                Kehadiran
+            </p>
+
+            <h2 class="text-5xl font-black text-[#14532D] mt-3">
+                {{ $persentase }}%
+            </h2>
+
+        </div>
+
+    </div>
+    @endisset
+
+    <!-- DATA MAHASISWA -->
+    <div class="bg-white rounded-3xl p-8 shadow-lg">
+
+        <h2 class="text-2xl font-black text-[#14532D] mb-6">
+            Data Mahasiswa
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-5">
+
+            <div>
+                <p class="text-gray-500">Nama Lengkap</p>
+                <p class="font-bold">{{ Auth::user()->name }}</p>
             </div>
+
+            <div>
+                <p class="text-gray-500">NIM</p>
+                <p class="font-bold">{{ Auth::user()->nim }}</p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">Instansi</p>
+                <p class="font-bold">{{ $instansi }}</p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">Program Studi</p>
+                <p class="font-bold">{{ $prodi }}</p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">Angkatan</p>
+                <p class="font-bold">{{ $angkatan }}</p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">Kelas</p>
+                <p class="font-bold">{{ $kelas }}</p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">Email</p>
+                <p class="font-bold">{{ Auth::user()->email }}</p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">Status</p>
+                <p class="font-bold text-green-600">
+                    Mahasiswa Aktif
+                </p>
+            </div>
+
         </div>
+
     </div>
 
-    <!-- Update Info Form -->
-    <div class="bg-white rounded-[30px] p-8 md:p-10 border-4 border-[#14532D] shadow-[-8px_8px_0_0_#14532D]">
-        <h3 class="text-xl font-black text-[#14532D] mb-6 border-b-4 border-gray-100 pb-4">Informasi Profil</h3>
+    <!-- RIWAYAT PRESENSI -->
+    <div class="bg-white rounded-3xl p-8 shadow-lg">
 
-        <form method="post" action="{{ route('profile.update') }}" class="space-y-5">
-            @csrf
-            @method('patch')
+        <h2 class="text-2xl font-black text-[#14532D] mb-6">
+            Presensi Terakhir
+        </h2>
 
-            <div>
-                <label for="name" class="block text-[#14532D] text-sm font-bold mb-2">Nama Lengkap</label>
-                <input id="name" name="name" type="text" value="{{ old('name', Auth::user()->name) }}" required
-                       class="w-full px-5 py-4 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-[#14532D] transition-colors text-gray-800 font-semibold">
-                @error('name') <p class="mt-2 text-red-600 font-semibold text-sm">{{ $message }}</p> @enderror
+        @if(isset($attendances) && $attendances->count())
+
+            <div class="space-y-4">
+
+                @foreach($attendances as $item)
+
+                    <div class="border rounded-2xl p-4">
+
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+                            <div>
+
+                                <h3 class="font-bold text-[#14532D]">
+                                    {{ $item->status }}
+                                </h3>
+
+                                <p class="text-sm text-gray-500">
+                                    {{ $item->created_at->format('d M Y H:i') }}
+                                </p>
+
+                            </div>
+
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full font-bold w-fit">
+                                {{ $item->status }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                @endforeach
+
             </div>
 
-            <div>
-                <label for="email" class="block text-[#14532D] text-sm font-bold mb-2">Email</label>
-                <input id="email" name="email" type="email" value="{{ old('email', Auth::user()->email) }}" required
-                       class="w-full px-5 py-4 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-[#14532D] transition-colors text-gray-800 font-semibold">
-                @error('email') <p class="mt-2 text-red-600 font-semibold text-sm">{{ $message }}</p> @enderror
+        @else
+
+            <div class="text-center py-10 text-gray-400">
+                Belum ada data presensi.
             </div>
 
-            @if (session('status') === 'profile-updated')
-                <div class="bg-green-50 border-2 border-green-200 rounded-xl p-4 text-green-800 font-bold text-sm">
-                    Profil berhasil diperbarui!
-                </div>
-            @endif
+        @endif
 
-            <div class="pt-2">
-                <button type="submit" class="bg-[#FFD54F] text-[#14532D] font-black py-4 px-8 rounded-2xl shadow-[-6px_6px_0_0_#14532D] hover:translate-y-[2px] hover:translate-x-[-2px] hover:shadow-[-4px_4px_0_0_#14532D] transition-all border-4 border-[#14532D]">
-                    SIMPAN PERUBAHAN
-                </button>
-            </div>
-        </form>
-    </div>
-
-    <!-- Update Password Form -->
-    <div class="bg-white rounded-[30px] p-8 md:p-10 border-4 border-[#14532D] shadow-[-8px_8px_0_0_#14532D]">
-        <h3 class="text-xl font-black text-[#14532D] mb-6 border-b-4 border-gray-100 pb-4">Ubah Password</h3>
-
-        <form method="post" action="{{ route('password.update') }}" class="space-y-5">
-            @csrf
-            @method('put')
-
-            <div>
-                <label for="current_password" class="block text-[#14532D] text-sm font-bold mb-2">Password Saat Ini</label>
-                <input id="current_password" name="current_password" type="password"
-                       class="w-full px-5 py-4 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-[#14532D] transition-colors text-gray-800 font-semibold"
-                       placeholder="••••••••">
-                @error('current_password', 'updatePassword') <p class="mt-2 text-red-600 font-semibold text-sm">{{ $message }}</p> @enderror
-            </div>
-
-            <div>
-                <label for="password" class="block text-[#14532D] text-sm font-bold mb-2">Password Baru</label>
-                <input id="password" name="password" type="password"
-                       class="w-full px-5 py-4 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-[#14532D] transition-colors text-gray-800 font-semibold"
-                       placeholder="Minimal 8 karakter">
-                @error('password', 'updatePassword') <p class="mt-2 text-red-600 font-semibold text-sm">{{ $message }}</p> @enderror
-            </div>
-
-            <div>
-                <label for="password_confirmation" class="block text-[#14532D] text-sm font-bold mb-2">Konfirmasi Password Baru</label>
-                <input id="password_confirmation" name="password_confirmation" type="password"
-                       class="w-full px-5 py-4 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-[#14532D] transition-colors text-gray-800 font-semibold"
-                       placeholder="Ulangi password baru">
-            </div>
-
-            @if (session('status') === 'password-updated')
-                <div class="bg-green-50 border-2 border-green-200 rounded-xl p-4 text-green-800 font-bold text-sm">
-                    Password berhasil diubah!
-                </div>
-            @endif
-
-            <div class="pt-2">
-                <button type="submit" class="bg-[#14532D] text-white font-black py-4 px-8 rounded-2xl shadow-[-6px_6px_0_0_#092A13] hover:translate-y-[2px] hover:translate-x-[-2px] hover:shadow-[-4px_4px_0_0_#092A13] transition-all border-4 border-[#092A13]">
-                    UBAH PASSWORD
-                </button>
-            </div>
-        </form>
     </div>
 
 </div>
+
 @endsection
