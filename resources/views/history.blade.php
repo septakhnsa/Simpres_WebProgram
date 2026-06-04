@@ -47,7 +47,13 @@
                         <div class="bg-[#DCFCE7] text-[#14532D] px-4 py-2 rounded-xl font-black text-xs border-2 border-[#14532D]">
                             {{ strtoupper($history->status) }}
                         </div>
-                        <button onclick="showDetailModal('{{ asset('storage/' . $history->photo_path) }}', '{{ $history->latitude }}', '{{ $history->longitude }}')" class="w-10 h-10 bg-white border-2 border-gray-300 rounded-xl flex items-center justify-center text-gray-500 hover:text-[#14532D] hover:border-[#14532D] transition-colors" title="Lihat Bukti">
+                       <button
+                            data-photo="{{ asset('storage/' . $history->photo_path) }}"
+                            data-lat="{{ $history->latitude }}"
+                            data-lng="{{ $history->longitude }}"
+                            onclick="showDetailModal(this)"
+                            class="w-10 h-10 bg-white border-2 border-gray-300 rounded-xl flex items-center justify-center text-gray-500 hover:text-[#14532D] hover:border-[#14532D] transition-colors"
+                            title="Lihat Bukti">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                         </button>
                     </div>
@@ -84,20 +90,20 @@
 </div>
 
 <script>
-    function showDetailModal(photoUrl, lat, lng) {
+        function showDetailModal(el) {
+        const photoUrl = el.dataset.photo;
+        const lat = el.dataset.lat;
+        const lng = el.dataset.lng;
+
         document.getElementById('modalPhoto').src = photoUrl;
-        document.getElementById('modalLocation').innerText = `${lat}, ${lng}`;
-        document.getElementById('modalMapLink').href = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-        
+        document.getElementById('modalLocation').innerText = lat + ', ' + lng;
+        document.getElementById('modalMapLink').href =
+            'https://www.google.com/maps/search/?api=1&query=' + lat + ',' + lng;
+
         const modal = document.getElementById('detailModal');
         modal.classList.remove('hidden');
         modal.classList.add('flex');
     }
-    
-    function closeDetailModal() {
-        const modal = document.getElementById('detailModal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
+        
 </script>
 @endsection

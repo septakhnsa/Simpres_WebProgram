@@ -30,8 +30,8 @@
                 <svg class="w-16 h-16 text-[#14532D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
             
-            <h1 class="text-white text-4xl font-black mb-4 z-10 tracking-wide drop-shadow-md">Presensi Online</h1>
-            <p class="text-white/90 text-lg font-bold z-10">Sistem Informasi Akademik<br>Universitas</p>
+            <h1 class="text-white text-4xl font-black mb-4 z-10 tracking-wide drop-shadow-md">SIMPRES<br>Presensi Online<br></h1>
+            <p class="text-white/90 text-lg font-bold z-10">Hadir Tepat Pasti Tercatat</p>
         </div>
 
         <!-- Right Side: Login Form -->
