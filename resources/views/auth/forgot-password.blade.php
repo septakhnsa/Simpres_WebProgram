@@ -42,7 +42,7 @@
             </h1>
 
             <p class="text-gray-500 font-semibold text-sm mb-8">
-                Masukkan email kamu, kami akan kirim link reset password.
+                Masukkan email Anda, kami akan kirim link reset password.
             </p>
 
             <!-- STATUS -->
